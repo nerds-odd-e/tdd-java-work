@@ -2,9 +2,6 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
-
-import org.junit.Assert;
 import org.junit.Test;
 
 import com.adaptionsoft.games.uglytrivia.Game;
@@ -15,18 +12,15 @@ public class TestTriviaGame {
 	Game aGame = new Game() {
 		protected void print(Object obj) {
 			output.add(obj.toString());
-			System.out.println(obj);
-			
 		}
 	};
 
-//	@Test
+	// @Test
 	public void preserveTheGameBehavior() {
 
 		aGame.add("Chet");
 		aGame.add("Pat");
 		aGame.add("Sue");
-
 
 		aGame.roll(1);
 		aGame.wrongAnswer();
@@ -47,7 +41,7 @@ public class TestTriviaGame {
 		assertTrue(output.contains("Answer was corrent!!!!"));
 		assertTrue(output.contains("Pat now has 1 Gold Coins."));
 	}
-	
+
 	@Test
 	public void shouldGetOutOfThePanaltyBoxOnlyOnce() throws Exception {
 		aGame.add("Jack");
@@ -56,7 +50,15 @@ public class TestTriviaGame {
 		aGame.roll(1);
 		aGame.roll(1);
 		assertEquals(2, countOutput("Jack is getting out of the penalty box"));
-		
+	}
+
+	@Test
+	public void shouldNotGetOutOfThePanaltyBoxIfWrongAgain() throws Exception {
+		aGame.add("Jack");
+		aGame.roll(1);
+		aGame.wrongAnswer();
+		aGame.roll(2);
+		assertTrue(output.contains("Jack is not getting out of the penalty box"));
 	}
 
 	int countOutput(String expected) {
