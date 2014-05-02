@@ -3,10 +3,10 @@ package com.adaptionsoft.games.uglytrivia;
 import java.util.LinkedList;
 
 public class Questions {
-	public LinkedList popQuestions;
-	public LinkedList scienceQuestions;
-	public LinkedList sportsQuestions;
-	public LinkedList rockQuestions;
+	private LinkedList popQuestions;
+	private LinkedList scienceQuestions;
+	private LinkedList sportsQuestions;
+	private LinkedList rockQuestions;
 
 	public Questions() {
 			

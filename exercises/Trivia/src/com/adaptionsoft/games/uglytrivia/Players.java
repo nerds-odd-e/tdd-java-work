@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Players {
-	public List<String> players;
-	public int[] places;
-	public int[] purses;
-	public boolean[] inPenaltyBox;
-	public int currentPlayer;
+	private List<String> players;
+	private int[] places;
+	private int[] purses;
+	private boolean[] inPenaltyBox;
+	private int currentPlayer;
 
 	public Players() {
 		this.players = new ArrayList<String>();
@@ -64,5 +64,31 @@ public class Players {
 		if (places[currentPlayer] == 10)
 			return "Sports";
 		return "Rock";
+	}
+
+	void nextPlayer() {
+		currentPlayer++;
+		if (currentPlayer == players.size())
+			currentPlayer = 0;
+	}
+
+	void currentPlayerAnswerRight() {
+		purses[currentPlayer]++;
+	}
+
+	int getCurentPlayerPurse() {
+		return purses[currentPlayer];
+	}
+
+	void sendCurrentPlayerToPenaltyBox() {
+		inPenaltyBox[currentPlayer] = true;
+	}
+
+	boolean didCurrentPlayerWin() {
+		return !(getCurentPlayerPurse() == 6);
+	}
+
+	int getPlaceOfCurrentPlayer() {
+		return places[currentPlayer];
 	}
 }

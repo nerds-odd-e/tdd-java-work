@@ -4,6 +4,7 @@ public class Game {
 	Questions questions = new Questions();
 	Players players = new Players();
 	boolean isGettingOutOfPenaltyBox;
+	private boolean gameContinue;
 
 	public Game() {
 	}
@@ -44,65 +45,39 @@ public class Game {
 
 	void reportNewQuestion() {
 		print(players.getCurrentPlayerName() + "'s new location is "
-				+ players.places[players.currentPlayer]);
+				+ players.getPlaceOfCurrentPlayer());
 		print("The category is " + players.currentCategory());
-		askQuestion();
-	}
-
-	private void askQuestion() {
 		print(questions.getQuestion(players.currentCategory()));
 	}
 
-	public boolean wasCorrectlyAnswered() {
+	public void wasCorrectlyAnswered() {
+		this.gameContinue = currentPlayerAnswerRight();
+		players.nextPlayer();
+	}
+
+	boolean currentPlayerAnswerRight() {
 		if (players.currentPlayerInPenaltyBox()) {
-			if (isGettingOutOfPenaltyBox) {
-				print("Answer was correct!!!!");
-				players.purses[players.currentPlayer]++;
-				print(players.getCurrentPlayerName() + " now has "
-						+ players.purses[players.currentPlayer]
-						+ " Gold Coins.");
-
-				boolean winner = didPlayerWin();
-				players.currentPlayer++;
-				if (players.currentPlayer == players.players.size())
-					players.currentPlayer = 0;
-
-				return winner;
-			} else {
-				players.currentPlayer++;
-				if (players.currentPlayer == players.players.size())
-					players.currentPlayer = 0;
+			if (!isGettingOutOfPenaltyBox) {
 				return true;
 			}
-
-		} else {
-
-			print("Answer was corrent!!!!");
-			players.purses[players.currentPlayer]++;
-			print(players.getCurrentPlayerName() + " now has "
-					+ players.purses[players.currentPlayer] + " Gold Coins.");
-
-			boolean winner = didPlayerWin();
-			players.currentPlayer++;
-			if (players.currentPlayer == players.players.size())
-				players.currentPlayer = 0;
-
-			return winner;
 		}
+		print("Answer was corrent!!!!");
+		players.currentPlayerAnswerRight();
+		print(players.getCurrentPlayerName() + " now has "
+				+ players.getCurentPlayerPurse() + " Gold Coins.");
+		return players.didCurrentPlayerWin();
 	}
 
-	public boolean wrongAnswer() {
+	public void wrongAnswer() {
 		print("Question was incorrectly answered");
 		print(players.getCurrentPlayerName() + " was sent to the penalty box");
-		players.inPenaltyBox[players.currentPlayer] = true;
-
-		players.currentPlayer++;
-		if (players.currentPlayer == players.players.size())
-			players.currentPlayer = 0;
-		return true;
+		players.sendCurrentPlayerToPenaltyBox();
+		players.nextPlayer();
+		this.gameContinue = true;
 	}
 
-	private boolean didPlayerWin() {
-		return !(players.purses[players.currentPlayer] == 6);
+	public boolean isGameContinue() {
+		return gameContinue;
 	}
+
 }

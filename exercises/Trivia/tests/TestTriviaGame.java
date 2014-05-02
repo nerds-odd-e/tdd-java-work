@@ -26,6 +26,7 @@ public class TestTriviaGame {
 		aGame.wrongAnswer();
 		aGame.roll(0);
 		aGame.wasCorrectlyAnswered();
+		assertFalse(aGame.isGameContinue());
 
 		assertTrue(output.contains("Chet was added"));
 		assertTrue(output.contains("They are player number 1"));
