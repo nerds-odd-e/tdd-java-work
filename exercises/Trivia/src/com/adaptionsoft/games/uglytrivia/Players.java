@@ -9,6 +9,7 @@ public class Players {
 	private int[] purses;
 	private boolean[] inPenaltyBox;
 	private int currentPlayer;
+	private boolean isGettingOutOfPenaltyBox;
 
 	public Players() {
 		this.players = new ArrayList<String>();
@@ -90,5 +91,13 @@ public class Players {
 
 	int getPlaceOfCurrentPlayer() {
 		return places[currentPlayer];
+	}
+
+	public boolean isNotGettingOutOfPenaltyBox() {
+		return currentPlayerInPenaltyBox() && !isGettingOutOfPenaltyBox;
+	}
+
+	public void setGettingOutOfPenaltyBox(boolean isGettingOutOfPenaltyBox) {
+		this.isGettingOutOfPenaltyBox = isGettingOutOfPenaltyBox;
 	}
 }

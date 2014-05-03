@@ -3,7 +3,6 @@ package com.adaptionsoft.games.uglytrivia;
 public class Game {
 	Questions questions = new Questions();
 	Players players = new Players();
-	boolean isGettingOutOfPenaltyBox;
 	private boolean gameContinue;
 
 	public Game() {
@@ -28,13 +27,13 @@ public class Game {
 		print(players.getCurrentPlayerName() + " is the current player");
 		print("They have rolled a " + roll);
 
+		players.setGettingOutOfPenaltyBox(roll % 2 != 0);
+		if (players.isNotGettingOutOfPenaltyBox()) {
+			print(players.getCurrentPlayerName()
+					+ " is not getting out of the penalty box");
+			return;
+		}
 		if (players.currentPlayerInPenaltyBox()) {
-			isGettingOutOfPenaltyBox = roll % 2 != 0;
-			if (!isGettingOutOfPenaltyBox) {
-				print(players.getCurrentPlayerName()
-						+ " is not getting out of the penalty box");
-				return;
-			}
 			print(players.getCurrentPlayerName()
 					+ " is getting out of the penalty box");
 		}
@@ -56,10 +55,8 @@ public class Game {
 	}
 
 	boolean currentPlayerAnswerRight() {
-		if (players.currentPlayerInPenaltyBox()) {
-			if (!isGettingOutOfPenaltyBox) {
-				return true;
-			}
+		if (players.isNotGettingOutOfPenaltyBox()) {
+			return true;
 		}
 		print("Answer was corrent!!!!");
 		players.currentPlayerAnswerRight();
